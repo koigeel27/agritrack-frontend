@@ -1,0 +1,12 @@
+<template>
+  <div>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <AppHeader />
+    <main id="main" class="container" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="container muted">
+      <small>AgriTrack &middot; ITE 18 Midterm Project &middot; Frontend prototype using mock data</small>
+    </footer>
+  </div>
+</template>

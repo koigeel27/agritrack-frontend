@@ -1,0 +1,233 @@
+{
+  "checks": [
+    {
+      "name": "route guard: signed-out user is sent to /login",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no horizontal scroll: login @1280px",
+      "pass": true,
+      "detail": "scrollWidth=1280"
+    },
+    {
+      "name": "keyboard: first Tab stop is the skip link",
+      "pass": true,
+      "detail": "Skip to main content"
+    },
+    {
+      "name": "login validation shows field errors",
+      "pass": true,
+      "detail": "Enter a valid email address. | Password must be at least 8 characters."
+    },
+    {
+      "name": "wrong password shows banner",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no horizontal scroll: dashboard @1280px",
+      "pass": true,
+      "detail": "scrollWidth=1280"
+    },
+    {
+      "name": "dashboard shows stat cards",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "login persists after refresh",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no horizontal scroll: crops @1280px",
+      "pass": true,
+      "detail": "scrollWidth=1280"
+    },
+    {
+      "name": "farmer sees only own crops (3)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "add crop validation shows 3 errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "add crop success message",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "new crop appears in list (client state or API)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no horizontal scroll: harvests @1280px",
+      "pass": true,
+      "detail": "scrollWidth=1280"
+    },
+    {
+      "name": "harvest filter by crop works",
+      "pass": true,
+      "detail": "all=4, corn=2"
+    },
+    {
+      "name": "log harvest success",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sign out returns to login",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "admin has no add buttons on dashboard",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "role guard: admin cannot open /crops/new",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "admin sees all crops",
+      "pass": true,
+      "detail": "5"
+    },
+    {
+      "name": "no horizontal scroll: login @375px",
+      "pass": true,
+      "detail": "scrollWidth=375"
+    },
+    {
+      "name": "no horizontal scroll: dashboard @375px",
+      "pass": true,
+      "detail": "scrollWidth=375"
+    },
+    {
+      "name": "mobile: menu is collapsed by default",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile: menu opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no horizontal scroll: crops @375px",
+      "pass": true,
+      "detail": "scrollWidth=375"
+    },
+    {
+      "name": "no horizontal scroll: log-harvest @375px",
+      "pass": true,
+      "detail": "scrollWidth=375"
+    },
+    {
+      "name": "touch target: submit button >= 44px tall",
+      "pass": true,
+      "detail": "44px"
+    },
+    {
+      "name": "no horizontal scroll: dashboard @768px",
+      "pass": true,
+      "detail": "scrollWidth=768"
+    }
+  ],
+  "axe": [
+    {
+      "page": "login",
+      "violations": [],
+      "passes": 20
+    },
+    {
+      "page": "dashboard",
+      "violations": [],
+      "passes": 18
+    },
+    {
+      "page": "crops",
+      "violations": [],
+      "passes": 18
+    },
+    {
+      "page": "add-crop",
+      "violations": [],
+      "passes": 24
+    },
+    {
+      "page": "harvests",
+      "violations": [],
+      "passes": 23
+    },
+    {
+      "page": "log-harvest",
+      "violations": [],
+      "passes": 24
+    },
+    {
+      "page": "dashboard-admin",
+      "violations": [],
+      "passes": 18
+    },
+    {
+      "page": "dashboard-mobile",
+      "violations": [],
+      "passes": 18
+    }
+  ],
+  "overflow": [
+    {
+      "page": "login",
+      "width": 1280,
+      "scrollWidth": 1280
+    },
+    {
+      "page": "dashboard",
+      "width": 1280,
+      "scrollWidth": 1280
+    },
+    {
+      "page": "crops",
+      "width": 1280,
+      "scrollWidth": 1280
+    },
+    {
+      "page": "harvests",
+      "width": 1280,
+      "scrollWidth": 1280
+    },
+    {
+      "page": "login",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "page": "dashboard",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "page": "crops",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "page": "log-harvest",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "page": "dashboard",
+      "width": 768,
+      "scrollWidth": 768
+    }
+  ]
+}
