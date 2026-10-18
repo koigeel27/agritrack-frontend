@@ -46,6 +46,26 @@ export const useHarvestsStore = defineStore('harvests', {
       this.items.unshift(res.data)
       this.items.sort((a, b) => b.harvest_date.localeCompare(a.harvest_date) || b.id - a.id)
       return res.data
-    }
+    },
+
+    async getOne(id: number | string) {
+      const { request } = useApi()
+      const res = await request<{ data: Harvest }>(`/harvests/${id}`)
+      return res.data
+    },
+    async update(id: number | string, payload: { harvest_date: string; quantity_kg: number; notes: string }) {
+      const { request } = useApi()
+      const res = await request<{ data: Harvest }>(`/harvests/${id}`, { method: 'PATCH', body: payload })
+      const i = this.items.findIndex((h) => h.id === Number(id))
+      // merge so crop_name and owner_name survive if the PATCH response omits them
+      if (i !== -1) this.items[i] = { ...this.items[i], ...res.data }
+      this.items.sort((a, b) => b.harvest_date.localeCompare(a.harvest_date) || b.id - a.id)
+      return res.data
+    },
+    async remove(id: number) {
+      const { request } = useApi()
+      await request(`/harvests/${id}`, { method: 'DELETE' }) // 204, no body
+      this.items = this.items.filter((h) => h.id !== id)
+    },
   }
 })

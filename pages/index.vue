@@ -3,7 +3,12 @@ import { useAuthStore } from '~/stores/auth'
 import { useCropsStore } from '~/stores/crops'
 import { useHarvestsStore } from '~/stores/harvests'
 
-useHead({ title: 'Dashboard' })
+useHead({
+  title: 'Sign in',
+  bodyAttrs: {
+    class: 'login-page'
+  }
+})
 
 const auth = useAuthStore()
 const crops = useCropsStore()

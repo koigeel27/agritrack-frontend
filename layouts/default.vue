@@ -6,7 +6,7 @@
       <slot />
     </main>
     <footer class="container muted">
-      <small>AgriTrack &middot; ITE 18 Midterm Project &middot; Frontend prototype using mock data</small>
+      <small>AgriTrack &middot; ITE 18 Midterm Project</small>
     </footer>
   </div>
 </template>

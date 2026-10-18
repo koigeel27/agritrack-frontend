@@ -30,7 +30,7 @@ async function submit() {
       <FormField id="email" v-model="email" label="Email" type="email" required :error="errors.email" />
       <FormField id="password" v-model="password" label="Password" type="password" required :error="errors.password" />
       <button class="btn" type="submit" :disabled="auth.loading">{{ auth.loading ? 'Signing in…' : 'Sign in' }}</button>
-      <p class="muted"><small>Demo accounts (mock): farmer@agritrack.test / Farmer123! &middot; admin@agritrack.test / Admin123!</small></p>
+      <p class="muted"><small>Demo accounts: farmer@agritrack.test / Farmer123! &middot; admin@agritrack.test / Admin123!</small></p>
     </form>
   </div>
 </template>

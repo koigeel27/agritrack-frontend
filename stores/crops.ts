@@ -39,6 +39,23 @@ export const useCropsStore = defineStore('crops', {
       const res = await request<{ data: Crop }>('/crops', { method: 'POST', body: payload })
       this.items.push(res.data)
       return res.data
+    },
+    async getOne(id: number | string) {
+      const { request } = useApi()
+      const res = await request<{ data: Crop }>(`/crops/${id}`)
+      return res.data
+    },
+    async update(id: number | string, payload: NewCrop) {
+      const { request } = useApi()
+      const res = await request<{ data: Crop }>(`/crops/${id}`, { method: 'PATCH', body: payload })
+      const i = this.items.findIndex((c) => c.id === Number(id))
+      if (i !== -1) this.items[i] = { ...this.items[i], ...res.data }
+      return res.data
+    },
+    async remove(id: number) {
+      const { request } = useApi()
+      await request(`/crops/${id}`, { method: 'DELETE' }) // backend answers 204, no body
+      this.items = this.items.filter((c) => c.id !== id)
     }
   }
 })
