@@ -12,6 +12,8 @@ const { readError } = useApi()
 const actionError = ref('')
 const actionOk = ref('')
 const deletingId = ref<number | null>(null)
+const harvestToDelete = ref<{ id: number; label: string } | null>(null)
+const deleteError = ref('')
 
 onMounted(() => {
   crops.fetchAll()
@@ -31,18 +33,39 @@ const columns = computed(() => [
   ...(auth.isFarmer ? [{ key: 'actions', label: 'Actions' }] : [])
 ])
 
-async function removeHarvest(id: number, label: string) {
-  if (deletingId.value !== null) return // blocks double clicks
-  if (!confirm(`Delete the harvest "${label}"?`)) return
+function requestHarvestDelete(id: number, label: string) {
   actionError.value = ''
   actionOk.value = ''
-  deletingId.value = id
+  deleteError.value = ''
+  harvestToDelete.value = { id, label }
+}
+
+function cancelHarvestDelete() {
+  if (deletingId.value !== null) return
+  harvestToDelete.value = null
+  deleteError.value = ''
+}
+
+async function removeHarvest() {
+  const harvest = harvestToDelete.value
+  if (!harvest || deletingId.value !== null) return
+  actionError.value = ''
+  actionOk.value = ''
+  deleteError.value = ''
+  deletingId.value = harvest.id
   try {
-    await harvests.remove(id)
+    await harvests.remove(harvest.id)
     actionOk.value = 'Harvest was deleted.'
+    harvestToDelete.value = null
   } catch (e: any) {
-    actionError.value = readError(e).message
-    if ((e?.statusCode ?? e?.response?.status) === 404) await harvests.fetchAll() // already gone: resync
+    const message = readError(e).message
+    if ((e?.statusCode ?? e?.response?.status) === 404) {
+      await harvests.fetchAll()
+      harvestToDelete.value = null
+      actionError.value = message
+    } else {
+      deleteError.value = message
+    }
   } finally {
     deletingId.value = null
   }
@@ -86,11 +109,20 @@ async function removeHarvest(id: number, label: string) {
               class="btn danger"
               :disabled="deletingId !== null"
               :aria-label="`Delete ${row.crop_name} harvest of ${formatDate(row.harvest_date)}`"
-              @click="removeHarvest(row.id, `${row.crop_name}, ${formatDate(row.harvest_date)}`)"
+              @click="requestHarvestDelete(row.id, `${row.crop_name}, ${formatDate(row.harvest_date)}`)"
             >{{ deletingId === row.id ? 'Deleting…' : 'Delete' }}</button>
           </div>
         </template>
       </DataTable>
     </template>
+    <DeleteConfirmDialog
+      :open="harvestToDelete !== null"
+      title="Delete this harvest?"
+      :description="`Permanently delete the ${harvestToDelete?.label || 'selected'} harvest record? This action cannot be undone.`"
+      :pending="deletingId !== null"
+      :error="deleteError"
+      @confirm="removeHarvest"
+      @cancel="cancelHarvestDelete"
+    />
   </div>
 </template>
