@@ -1,17 +1,20 @@
-# AgriTrack — Harvest Logbook
+﻿# AgriTrack — Harvest Logbook
 
-A web-based harvest logbook for small farmers, developed for the **ITE 18 Full Stack project**. AgriTrack helps farmers manage crop records and harvest logs through a responsive web interface.
+AgriTrack is a web-based harvest logbook for small farmers, developed as part of the **ITE 18 Full Stack Project**. It provides a responsive interface for managing crop records and harvest logs.
 
 ## Project Overview
 
-AgriTrack uses a full-stack architecture:
+AgriTrack uses a full-stack architecture consisting of the following technologies:
 
-- **Frontend:** Nuxt 3, Vue 3, Pinia, and TypeScript
-- **Backend:** NestJS and TypeORM
+- **Frontend:** Nuxt 3 and Vue 3
+- **State Management:** Pinia
+- **Backend:** NestJS
+- **ORM:** TypeORM
 - **Database:** PostgreSQL
 - **Hosting:** Render for the deployed API and database
 
-The frontend communicates with the backend through a REST API. Crop and harvest operations are persisted in PostgreSQL.
+The frontend communicates with the backend through a REST API. Crop and harvest records are managed through the backend and persisted in the database.
+
 
 ## Features
 
@@ -19,25 +22,26 @@ The frontend communicates with the backend through a REST API. Crop and harvest 
 - Dashboard for viewing agricultural records and summaries
 - Crop listing, creation, editing, and deletion
 - Harvest listing, creation, editing, and deletion
-- Role-aware interfaces
+- Role-aware interfaces and access-dependent actions
 - Form validation and reusable Vue components
 - Responsive user interface
 - API error handling
+- Confirmation dialogs before deleting crop and harvest records
 
-## Repositories
+## Project Repositories
 
 - **Frontend:** https://github.com/koigeel27/agritrack-frontend
 - **Backend:** https://github.com/koigeel27/agritrack-api
 
 ## Requirements
 
-Install the following before running the frontend locally:
+To run the frontend locally, install:
 
 - Node.js 20 or newer
 - npm
-- Git (optional if downloading ZIP files)
+- Git (optional if downloading the repository as a ZIP file)
 
-Check your versions:
+Check your installed versions:
 
 ```bash
 node -v
@@ -48,19 +52,19 @@ npm -v
 
 ### Option A: Download the ZIP
 
-1. Open the frontend repository on GitHub.
-2. Click **Code → Download ZIP**.
-3. Extract the ZIP file.
-4. Open a terminal in the extracted project folder.
+1. Open the [AgriTrack frontend repository](https://github.com/koigeel27/agritrack-frontend).
+2. Select **Code → Download ZIP**.
+3. Extract the downloaded archive.
+4. Open a terminal in the extracted project directory.
 
-### Option B: Clone the repository
+### Option B: Clone the Repository
 
 ```bash
 git clone https://github.com/koigeel27/agritrack-frontend.git
 cd agritrack-frontend
 ```
 
-### Install dependencies
+### Install Dependencies
 
 From the frontend project directory, run:
 
@@ -70,61 +74,65 @@ npm install
 
 ### Configure the API URL
 
-Create a `.env` file in the frontend project root, alongside `package.json`.
+Create a `.env` file in the frontend project root, in the same directory as `package.json`.
 
-For the deployed backend, add:
+For the deployed backend, configure:
 
 ```dotenv
 NUXT_PUBLIC_API_BASE=https://agritrack-api-syhb.onrender.com/api
 ```
 
-This URL points the frontend to the deployed AgriTrack API.
+The frontend must be configured to read `NUXT_PUBLIC_API_BASE` through the application's Nuxt configuration or runtime configuration.
 
-Do not add database passwords, JWT secrets, or other private credentials to the frontend environment file. Do not commit `.env` files to GitHub.
+Do not place database passwords, JWT secrets, or other private credentials in the frontend environment file. Do not commit `.env` files containing secrets to GitHub.
 
-### Start the frontend
+After changing environment variables, restart the development server.
+
+### Start the Frontend
 
 ```bash
 npm run dev
 ```
 
-Open:
+Open the local application at:
 
 http://localhost:3000
 
 Keep the terminal running while using the application.
 
-> **Note:** The frontend can use the deployed API without installing PostgreSQL locally, provided the deployed backend and database are available and the API accepts the request. Changes made through the connected application may affect shared demo data.
+> **Note:** The frontend can communicate with the deployed API without requiring a local PostgreSQL installation, provided the API and database are available. Changes made through the application may affect shared demonstration data.
 
 ## Demo Accounts
 
-Use the following project demonstration accounts when they are available in the deployed backend:
+The following demonstration accounts are provided for project testing, subject to their availability in the deployed backend.
 
 | Role | Email | Password |
 |---|---|---|
 | Farmer | `farmer@agritrack.test` | `Farmer123!` |
 | Farmer | `farmer2@agritrack.test` | `Farmer123!` |
-| Admin | `admin@agritrack.test` | `Admin123!` |
+| Administrator | `admin@agritrack.test` | `Admin123!` |
 
-Account availability depends on the backend database configuration. If an account cannot log in, contact the project maintainer rather than changing production data.
+These credentials should be used only if they are intentionally configured as project demonstration accounts. Account availability depends on the backend database configuration.
 
-These are demonstration credentials, not accounts for real personal information.
+If an account cannot log in, verify the backend's availability and contact the project maintainer.
+
+Do not use demonstration accounts for real personal information or sensitive data.
 
 ## Backend API
 
-**Base URL:**
+**API Base URL**
 
 ```text
 https://agritrack-api-syhb.onrender.com/api
 ```
 
-**API documentation:**
+**API Documentation**
 
 ```text
 https://agritrack-api-syhb.onrender.com/api/docs
 ```
 
-The backend provides authentication, crop, harvest, and user-related endpoints.
+The backend provides endpoints for authentication, crop management, harvest management, and user-related operations.
 
 The frontend uses the API base URL configured through `NUXT_PUBLIC_API_BASE`.
 
@@ -132,74 +140,76 @@ The frontend uses the API base URL configured through `NUXT_PUBLIC_API_BASE`.
 
 To develop the backend locally:
 
-1. Download or clone the backend repository:
+1. Clone or download the [AgriTrack backend repository](https://github.com/koigeel27/agritrack-api).
+2. Follow the backend repository's README for installation instructions and prerequisites.
+3. Configure the required environment variables according to the backend's documentation.
+4. Set up a PostgreSQL database that you are authorized to use.
+5. Start the backend using its documented development command.
+6. Update the frontend's `.env` file to point to the local API URL, including the `/api` prefix if required by the backend configuration.
 
-   https://github.com/koigeel27/agritrack-api
+Use the actual port configured by the backend. Do not assume the example port is correct.
 
-2. Follow the backend repository's README for prerequisites and installation.
-3. Configure the required environment variables using its environment example or setup instructions.
-4. Configure a PostgreSQL database that you are authorized to use.
-5. Start the backend using the documented development command.
-6. Update the frontend `.env` file to point to the local API URL, including its `/api` prefix.
-
-For example, if the local API runs on port 3000, use the actual port configured by the backend rather than assuming the example port is correct.
-
-Do not copy production database credentials into shared files or commit secrets to GitHub.
+Never copy production database credentials into shared files or commit secrets to GitHub.
 
 ## Application Routes
 
+The following table lists the primary application routes.
+
 | Route | Purpose |
 |---|---|
-| `/login` | Login |
+| `/login` | User login |
 | `/` | Dashboard |
-| `/crops` | Crop list |
-| `/crops/new` | Create a crop |
-| `/crops/[id]/edit` | Edit a crop |
-| `/harvests` | Harvest list |
-| `/harvests/new` | Create a harvest |
-| `/harvests/[id]/edit` | Edit a harvest |
+| `/crops` | View crop records |
+| `/crops/new` | Create a crop record |
+| `/crops/[id]/edit` | Edit a crop record |
+| `/harvests` | View harvest records |
+| `/harvests/new` | Create a harvest record |
+| `/harvests/[id]/edit` | Edit a harvest record |
 
-Available actions depend on the authenticated user's role and backend permissions.
+Available actions may depend on the authenticated user's role and the permissions enforced by the backend.
 
 ## Integration Verification
 
-The following integration checks were performed against the deployed API and PostgreSQL database:
+The following workflows have been reported as tested against the deployed API:
 
-- Successful login through the application for farmer and administrator accounts
-- Crop creation verified in PostgreSQL
-- Crop editing verified in PostgreSQL
-- Harvest creation verified in PostgreSQL
-- Harvest editing verified in PostgreSQL
-- Harvest deletion verified by checking that the deleted record was absent from PostgreSQL
-- Crop and harvest records returned by the API
+- Login using farmer and administrator demonstration accounts
+- Crop creation and editing
+- Harvest creation and editing
+- Harvest deletion
+- Retrieval of crop and harvest records through the API
+- Verification of persisted changes in PostgreSQL for the tested operations
 
-These checks verify the tested workflows. They do not constitute a complete security audit or guarantee that every authorization and error-handling scenario has been tested.
+These checks cover selected application workflows. They do not constitute a complete security audit or guarantee that every authorization, validation, or error-handling scenario has been tested.
+
+For repeatable verification, confirm that each operation succeeds in the application, inspect the corresponding API response in the browser's Network tab, and verify persisted changes using authorized database access when available.
 
 ## Troubleshooting
 
-### Frontend cannot connect to the API
+### Frontend Cannot Connect to the API
 
-- Verify that `.env` exists in the frontend project root.
-- Confirm `NUXT_PUBLIC_API_BASE` contains the correct API base URL.
+- Confirm that `.env` exists in the frontend project root.
+- Verify that `NUXT_PUBLIC_API_BASE` contains the correct API base URL.
+- Confirm that the application reads this variable in its Nuxt configuration.
 - Restart the development server after changing `.env`.
-- Check the browser's Network tab and the terminal for errors.
-- Confirm the deployed API is reachable.
+- Check the browser's Network tab and terminal output for errors.
+- Confirm that the deployed API is reachable.
 
-### Login fails
+### Login Fails
 
-- Check that you are using the correct demo account.
-- Confirm the backend is available.
-- Check the Network tab for the login request and response status.
+- Check the demonstration account credentials.
+- Confirm that the backend is available.
+- Inspect the login request and response status in the browser's Network tab.
+- Check whether the account exists in the backend database.
 - Do not share authentication tokens or passwords in screenshots or support messages.
 
-### Changes do not appear
+### Changes Do Not Appear
 
-- Refresh the page and check the API response.
-- Inspect the relevant request in the browser's Network tab.
-- Confirm the operation succeeded before checking PostgreSQL.
-- If you have database access, verify the affected record in the correct database.
+- Refresh the page and inspect the API response.
+- Check the relevant request in the browser's Network tab.
+- Confirm that the operation succeeded before checking the database.
+- If authorized database access is available, verify the affected record in the correct database.
 
-### Port 3000 is already in use
+### IF Port 3000 Is Already in Use
 
 Run the development server on another port:
 
@@ -215,9 +225,9 @@ http://localhost:3001
 
 - **Project:** AgriTrack — Harvest Logbook
 - **Course:** ITE 18 — Application Development and Emerging Technologies
-- **Track:** Full Stack
-- **Frontend:** Nuxt 3
-- **Backend:** NestJS
+- **Project Track:** Full Stack
+- **Frontend Framework:** Nuxt 3
+- **Backend Framework:** NestJS
 - **Database:** PostgreSQL
 
 AgriTrack is a student project intended for educational and demonstration purposes.
