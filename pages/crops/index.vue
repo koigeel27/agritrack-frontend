@@ -10,6 +10,8 @@ const { readError } = useApi()
 const actionError = ref('')
 const actionOk = ref('')
 const deletingId = ref<number | null>(null)
+const cropToDelete = ref<{ id: number; name: string } | null>(null)
+const deleteError = ref('')
 
 onMounted(() => crops.fetchAll())
 
@@ -22,18 +24,39 @@ const columns = computed(() => [
   ...(auth.isFarmer ? [{ key: 'actions', label: 'Actions' }] : [])
 ])
 
-async function removeCrop(id: number, name: string) {
-  if (deletingId.value !== null) return // blocks double clicks
-  if (!confirm(`Delete "${name}"?`)) return
+function requestCropDelete(id: number, name: string) {
   actionError.value = ''
   actionOk.value = ''
-  deletingId.value = id
+  deleteError.value = ''
+  cropToDelete.value = { id, name }
+}
+
+function cancelCropDelete() {
+  if (deletingId.value !== null) return
+  cropToDelete.value = null
+  deleteError.value = ''
+}
+
+async function removeCrop() {
+  const crop = cropToDelete.value
+  if (!crop || deletingId.value !== null) return
+  actionError.value = ''
+  actionOk.value = ''
+  deleteError.value = ''
+  deletingId.value = crop.id
   try {
-    await crops.remove(id)
-    actionOk.value = `"${name}" was deleted.`
+    await crops.remove(crop.id)
+    actionOk.value = `"${crop.name}" was deleted.`
+    cropToDelete.value = null
   } catch (e: any) {
-    actionError.value = readError(e).message // 409 = the crop still has harvests
-    if ((e?.statusCode ?? e?.response?.status) === 404) await crops.fetchAll() // already gone: resync
+    const message = readError(e).message
+    if ((e?.statusCode ?? e?.response?.status) === 404) {
+      await crops.fetchAll()
+      cropToDelete.value = null
+      actionError.value = message
+    } else {
+      deleteError.value = message
+    }
   } finally {
     deletingId.value = null
   }
@@ -62,10 +85,19 @@ async function removeCrop(id: number, name: string) {
             class="btn danger"
             :disabled="deletingId !== null"
             :aria-label="`Delete ${row.name}`"
-            @click="removeCrop(row.id, row.name)"
+            @click="requestCropDelete(row.id, row.name)"
           >{{ deletingId === row.id ? 'Deleting…' : 'Delete' }}</button>
         </div>
       </template>
     </DataTable>
+    <DeleteConfirmDialog
+      :open="cropToDelete !== null"
+      :title="`Delete ${cropToDelete?.name || 'crop'}?`"
+      description="This permanently removes the crop record. Crops with harvest records cannot be deleted."
+      :pending="deletingId !== null"
+      :error="deleteError"
+      @confirm="removeCrop"
+      @cancel="cancelCropDelete"
+    />
   </div>
 </template>

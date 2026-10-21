@@ -8,6 +8,7 @@ const crops = useCropsStore()
 const harvests = useHarvestsStore()
 const open = ref(false)
 const route = useRoute()
+const signedOut = computed(() => !auth.isLoggedIn)
 
 watch(() => route.path, () => { open.value = false })
 
@@ -22,7 +23,10 @@ async function logout() {
 <template>
   <header class="site-header">
     <div class="container bar">
-      <NuxtLink to="/" class="brand">🌾 AgriTrack</NuxtLink>
+      <NuxtLink to="/" class="brand" :class="{ 'brand--signed-out': signedOut }">
+        <img class="brand-logo" src="/agritrack-mark.png" alt="AgriTrack logo">
+        <span>AgriTrack</span>
+      </NuxtLink>
       <template v-if="auth.isLoggedIn">
         <button class="nav-toggle" :aria-expanded="open" aria-controls="main-nav" @click="open = !open">Menu</button>
         <nav id="main-nav" class="nav" :class="{ open }" aria-label="Main navigation">
